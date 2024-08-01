@@ -1,0 +1,149 @@
+﻿@model ML.Producto 
+@{
+    ViewBag.Title = "Form";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Agregar un nuevo producto</h2>
+
+<div class="container">
+    <div class="row">
+        <div class="col-12">
+            <h5>Llene los campos para agregar un nuevo producto</h5>
+            <hr />
+        </div>
+    </div>
+    @using (Html.BeginForm("Form", "Producto", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {
+        @Html.HiddenFor(model => model.IdProducto)
+
+<div class="row">
+    <div class="col-md-4">
+        <div class="row">
+            <div class="col-12">
+                @Html.LabelFor(model => model.Nombre, "Producto")
+                @Html.TextBoxFor(model => model.Nombre, new { @class = "form-control" })
+            </div>
+            <div class="col-12">
+                @Html.LabelFor(model => model.Descripcion)
+                @Html.TextBoxFor(model => model.Descripcion, new { @class = "form-control" })
+            </div>
+            <div class="col-12">
+                @Html.LabelFor(model => model.Precio)
+                @Html.TextBoxFor(model => model.Precio, new { @class = "form-control" })
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="row">
+            <div class="col-12">
+                @if (Model.Imagen == null)
+                {
+                    <img id="img" src="https://back.tiendainval.com/backend/admin/backend/web/archivosDelCliente/items/images/20210108100138no_image_product.png" width="250" height="250" />
+                }
+                else
+                {
+                    <img id="Imagen" src="data:image/jpeg;base64,@Convert.ToBase64String(Model.Imagen)" width="200" height="200" />
+                }
+                <input name="file" type="file" class="form-control" id="imagen" onchange="validarImagen(), previsualizarImagen(this)" />
+                @Html.HiddenFor(model => Model.Imagen)
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <h2>Categoria</h2>
+        <div class="row">
+            <div class="col-12">
+                @Html.LabelFor(model => model.SubCategoria.Categoria.IdCategoria, "Categoria")
+                @Html.DropDownListFor(model => model.SubCategoria.Categoria.IdCategoria, new SelectList(Model.SubCategoria.Categoria.Categorias, "IdCategoria", "Nombre"), "Selecciona una opción", new { @class = "form-control", @id = "ddlCategoria", @onchange = "consultarSubCategoria()" })
+            </div>
+            <div class="col-12">
+                @if (Model.SubCategoria.SubCategorias == null)
+                {
+                    @Html.LabelFor(model => model.SubCategoria.IdSubCategoria, "Subcategoria")
+                    @Html.DropDownListFor(model => model.SubCategoria.IdSubCategoria, new SelectList(string.Empty, "Value", "Text"), "Selecciona una opción", new { @class = "form-control", @id = "ddlSubcategoria" })
+                }
+                else
+                {
+                    @Html.LabelFor(model => model.SubCategoria.IdSubCategoria, "Subcategoria")
+                    @Html.DropDownListFor(model => model.SubCategoria.IdSubCategoria, new SelectList(Model.SubCategoria.SubCategorias, "IdSubcategoria", "Nombre"), "Selecciona una opción", new { @class = "form-control", @id = "ddlSubcategoria" })
+                }
+            </div>
+        </div>
+    </div>
+
+
+</div>
+
+        <hr />
+        <div class="row">
+            
+            <div class="col-md-6">
+                <h2>&nbsp;</h2>
+                <div class="row">
+                    
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-1">
+                <button type="submit" class="btn btn-success">Agregar</button>
+            </div>
+            <div class="col-1">
+                @Html.ActionLink("Cancelar", "GetAll", new { IdProducto = 0 }, new { @class = "btn btn-danger" })
+            </div>
+        </div>
+
+    }
+</div>
+        <script>
+        function consultarSubCategoria() {
+    $("#ddlSubcategoria").empty();
+    $.ajax({
+        type: 'GET',
+        url: '@Url.Action("GetSubCategoriaByIdCategoria", "Producto")',
+        dataType: 'json',
+        data: { 'IdCategoria': parseInt($("#ddlCategoria").val()) },
+        success: function (grupos) {
+            $("#ddlSubcategoria").append('<option value="0">' + 'Seleccione una opcion' + '</option>');
+            $.each(grupos.Objects, function (i, grupos) {
+                $("#ddlSubcategoria").append('<option value="' + grupos.IdSubCategoria + '">' + grupos.Nombre + '</option>');
+            });
+        },
+        error: function (ex) {
+            alert('Failed.' + ex.ErrorMessage);
+        }
+    });
+
+    }
+
+    function validarImagen() {
+        var allowedExtension = ['jpeg', 'jpg', 'png'];
+        var fileExtension = document.getElementById('imagen').value.split('.').pop().toLowerCase();
+        var isValidFile = false;
+        for (var index in allowedExtension) {
+            if (fileExtension == allowedExtension[index]) {
+                isValidFile = true;
+                break;
+            }
+        }
+        if (!isValidFile) {
+            alert('Las extensiones permitidas son : *.' + allowedExtension.join(', *.'));
+            document.getElementById('imagen').value = "";
+        }
+        return isValidFile;
+    }
+
+
+    function previsualizarImagen(input) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+            reader.onload = function (e) {
+                $('img').attr('src', e.target.result);
+            };
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+
+
+        </script>

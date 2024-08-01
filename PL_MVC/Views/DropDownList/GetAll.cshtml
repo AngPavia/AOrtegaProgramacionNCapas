@@ -1,0 +1,83 @@
+﻿@model ML.Usuario
+@{
+    ViewBag.Title = "GetAll";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>GetAll</h2>
+
+<div class="container">
+    <div class="row">
+        <div class="col-12">
+            @Html.LabelFor(model => model.Direccion.Colonia.Municipio.Estado.IdEstado, "Estado")
+            @Html.DropDownListFor(model => model.Direccion.Colonia.Municipio.Estado.IdEstado, new SelectList(Model.Direccion.Colonia.Municipio.Estado.Estados, "IdEstado", "Nombre"), "Seleccina una opción", new { @class = "form-control", @id = "ddlEstado", @onchange = "consultarMunicipios()" })
+
+            @if (Model.Direccion.Colonia.Municipio.Municipios == null)
+            {
+                @Html.LabelFor(model => model.Direccion.Colonia.Municipio.IdMunicipio, "Municipio")
+                @Html.DropDownListFor(model => model.Direccion.Colonia.Municipio.IdMunicipio, new SelectList(string.Empty, "Value", "Text"), "Selecciona una opción", new { @class = "form-control", @id = "ddlMunicipio", @onchange = "consultarColonias()" })
+            }
+            else
+            {
+                @Html.LabelFor(model => model.Direccion.Colonia.Municipio.IdMunicipio, "Municipio")
+                @Html.DropDownListFor(model => model.Direccion.Colonia.Municipio.IdMunicipio, new SelectList(Model.Direccion.Colonia.Municipio.Municipios, "IdMunicipio", "Nombre"), "Selecciona una opción", new { @class = "form-control", @id = "ddlMunicipio", @onchange = "consultarColonias()" })
+            }
+
+        </div>
+        <div class="col-3">
+            @if (Model.Direccion.Colonia.Colonias == null)
+            {
+                @Html.LabelFor(model => model.Direccion.Colonia.IdColonia, "Colonia")
+                @Html.DropDownListFor(model => model.Direccion.Colonia.IdColonia, new SelectList(string.Empty, "Value", "Text"), "Selecciona una opción", new { @class = "form-control", @id = "ddlColonia" })
+            }
+            else
+            {
+                @Html.LabelFor(model => model.Direccion.Colonia.IdColonia, "Colonia")
+                @Html.DropDownListFor(model => model.Direccion.Colonia.IdColonia, new SelectList(Model.Direccion.Colonia.Colonias, "IdColonia", "Nombre"), "Selecciona una opción", new { @class = "form-control", @id = "ddlColonia" })
+            }
+
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    function consultarMunicipios() {
+        $("#ddlMunicipio").empty();
+        $.ajax({
+            type: 'GET',
+            url: '@Url.Action("GetMunicipiosByIdEstado", "Usuario")',
+            dataType: 'json',
+            data: { 'IdEstado': parseInt($("#ddlEstado").val()) },
+            success: function (municipio) {
+                $("#ddlMunicipio").append('<option value="0">' + 'Seleccione una opcion' + '</option>');
+                $.each(municipio.Objects, function (i, municipio) {
+                    $("#ddlMunicipio").append('<option value="' + municipio.IdMunicipio + '">' + municipio.Nombre + '</option>');
+                });
+            },
+            error: function (ex) {
+                alert('Failed.' + ex.ErrorMessage);
+            }
+        });
+
+    }
+
+    function consultarColonias() {
+     $("#ddlColonia").empty();
+    $.ajax({
+        type: 'GET',
+        url: '@Url.Action("GetColoniasByIdMunicipio", "Usuario")',
+        dataType: 'json',
+        data: { 'IdMunicipio': $("#ddlMunicipio").val() },
+        success: function (colonia) {
+            $("#ddlColonia").append('<option value="0">' + 'Seleccione una opción' + '</option>');
+            $.each(colonia.Objects, function (i, colonia) {
+                $("#ddlColonia").append('<option value="'
+                    + colonia.IdColonia + '">'
+                    + colonia.Nombre + '</option>');
+            });
+        },
+        error: function (ex) {
+            alert('Failed.' + ex);
+        }
+});
+    }
+ </script>  

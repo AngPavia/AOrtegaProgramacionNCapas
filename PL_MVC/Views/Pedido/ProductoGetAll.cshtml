@@ -1,0 +1,70 @@
+﻿@model ML.Producto
+@{
+    ViewBag.Title = "ProductoGetAll";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>ProductoGetAll</h2>
+
+
+
+
+
+
+<div class="container">
+    <div class="row">
+        <div class="col-12">
+            <h2>Producto</h2>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12">
+            <h5>Seleccione un producto para agregar al carrito</h5>
+            <hr />
+        </div>
+    </div>
+
+
+
+    <div class="row">
+
+
+
+        @if (Model.Productos == null || Model.Productos.Count == 0)
+        {
+            <h2>No existe registro</h2>
+        }
+        else
+        {
+            <div class="row">
+                 
+                @foreach (ML.Producto producto in Model.Productos)
+                {
+                    <div class="card" style="width: 18rem;">
+                       
+                        @if (producto.Imagen == null)
+                        {
+                            <img id="img" src="https://back.tiendainval.com/backend/admin/backend/web/archivosDelCliente/items/images/20210108100138no_image_product.png" class="card-img-top" />
+                        }
+                        else
+                        {
+                            <img id="Imagen" class="card-img-top" width="80" height="100" src="data:image/jpeg;base64,@Convert.ToBase64String(producto.Imagen) " />
+                        }
+
+                        <div class="card-body">
+                            <h5 class="card-title">@producto.Nombre</h5>
+                            <p class="card-text"><small class="text-muted">@producto.Descripcion</small></p>
+                            <p class="card-text"><strong>Precio:</strong> @producto.Precio</p>
+                            <p class="card-text"><strong>Categoria:</strong> @producto.SubCategoria.Nombre</p>
+                            <a href="@Url.Action("PedidoSucursalProducto", "Pedido", new { IdProducto = producto.IdProducto })" class="btn btn-outline-primary"><i class="bi bi-cart-plus-fill"></i> Agregar</a>
+
+                        </div>
+                    </div>
+
+                }
+            </div>
+        }
+    </div>
+
+
+</div>

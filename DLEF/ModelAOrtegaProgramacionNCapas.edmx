@@ -1,0 +1,1249 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="AOrtegaProgramacionNCapasModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Categoria">
+          <Key>
+            <PropertyRef Name="IdCategoria" />
+          </Key>
+          <Property Name="IdCategoria" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Nombre" Type="varchar" MaxLength="100" />
+        </EntityType>
+        <EntityType Name="Colonia">
+          <Key>
+            <PropertyRef Name="IdColonia" />
+          </Key>
+          <Property Name="IdColonia" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Nombre" Type="varchar" MaxLength="100" />
+          <Property Name="IdMunicipio" Type="tinyint" />
+          <Property Name="CodigoPostal" Type="varchar" MaxLength="10" />
+        </EntityType>
+        <EntityType Name="Direccion">
+          <Key>
+            <PropertyRef Name="IdDireccion" />
+          </Key>
+          <Property Name="IdDireccion" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Calle" Type="varchar" MaxLength="50" />
+          <Property Name="NumeroInterior" Type="varchar" MaxLength="10" />
+          <Property Name="NumeroExterior" Type="varchar" MaxLength="10" />
+          <Property Name="IdColonia" Type="int" />
+        </EntityType>
+        <EntityType Name="Estado">
+          <Key>
+            <PropertyRef Name="IdEstado" />
+          </Key>
+          <Property Name="IdEstado" Type="tinyint" Nullable="false" />
+          <Property Name="Nombre" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Municipio">
+          <Key>
+            <PropertyRef Name="IdMunicipio" />
+          </Key>
+          <Property Name="IdMunicipio" Type="tinyint" Nullable="false" />
+          <Property Name="Nombre" Type="varchar" MaxLength="100" />
+          <Property Name="IdEstado" Type="tinyint" />
+        </EntityType>
+        <EntityType Name="Producto">
+          <Key>
+            <PropertyRef Name="IdProducto" />
+          </Key>
+          <Property Name="IdProducto" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Nombre" Type="varchar" MaxLength="100" />
+          <Property Name="Descripcion" Type="varchar" MaxLength="500" />
+          <Property Name="Precio" Type="decimal" Precision="18" Scale="0" />
+          <Property Name="Imagen" Type="varbinary(max)" />
+          <Property Name="IdSubCategoria" Type="int" />
+        </EntityType>
+        <EntityType Name="ProductoSucursal">
+          <Key>
+            <PropertyRef Name="IdProductoSucursal" />
+          </Key>
+          <Property Name="IdProductoSucursal" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="IdProducto" Type="int" />
+          <Property Name="IdSucursal" Type="int" />
+          <Property Name="Stock" Type="int" />
+        </EntityType>
+        <EntityType Name="Rol">
+          <Key>
+            <PropertyRef Name="IdRol" />
+          </Key>
+          <Property Name="IdRol" Type="tinyint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Nombre" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="SubCategoria">
+          <Key>
+            <PropertyRef Name="IdSubCategoria" />
+          </Key>
+          <Property Name="IdSubCategoria" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Nombre" Type="varchar" MaxLength="100" />
+          <Property Name="IdCategoria" Type="int" />
+        </EntityType>
+        <EntityType Name="Sucursal">
+          <Key>
+            <PropertyRef Name="IdSucursal" />
+          </Key>
+          <Property Name="IdSucursal" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Nombre" Type="varchar" MaxLength="50" />
+          <Property Name="Latitud" Type="varchar" MaxLength="50" />
+          <Property Name="Longitud" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Usuario">
+          <Key>
+            <PropertyRef Name="IdUsuario" />
+          </Key>
+          <Property Name="IdUsuario" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserName" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Nombre" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Email" Type="varchar" MaxLength="254" Nullable="false" />
+          <Property Name="Password" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="IdRol" Type="tinyint" />
+          <Property Name="ApellidoPaterno" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Sexo" Type="char" MaxLength="1" Nullable="false" />
+          <Property Name="Telefono" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="Celular" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="FechaNacimiento" Type="date" Nullable="false" />
+          <Property Name="Curp" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="ApellidoMaterno" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="IdDireccion" Type="int" />
+          <Property Name="Imagen" Type="varchar(max)" />
+          <Property Name="Status" Type="bit" />
+          <Property Name="Edad" Type="int" />
+          <Property Name="IdAspNet" Type="nvarchar" MaxLength="128" />
+        </EntityType>
+        <Association Name="FK__Colonia__IdMunic__2C3393D0">
+          <End Role="Municipio" Type="Self.Municipio" Multiplicity="0..1" />
+          <End Role="Colonia" Type="Self.Colonia" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Municipio">
+              <PropertyRef Name="IdMunicipio" />
+            </Principal>
+            <Dependent Role="Colonia">
+              <PropertyRef Name="IdMunicipio" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Direccion__IdCol__2F10007B">
+          <End Role="Colonia" Type="Self.Colonia" Multiplicity="0..1" />
+          <End Role="Direccion" Type="Self.Direccion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Colonia">
+              <PropertyRef Name="IdColonia" />
+            </Principal>
+            <Dependent Role="Direccion">
+              <PropertyRef Name="IdColonia" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Municipio__IdEst__29572725">
+          <End Role="Estado" Type="Self.Estado" Multiplicity="0..1" />
+          <End Role="Municipio" Type="Self.Municipio" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Estado">
+              <PropertyRef Name="IdEstado" />
+            </Principal>
+            <Dependent Role="Municipio">
+              <PropertyRef Name="IdEstado" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Producto__IdSubC__76969D2E">
+          <End Role="SubCategoria" Type="Self.SubCategoria" Multiplicity="0..1" />
+          <End Role="Producto" Type="Self.Producto" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SubCategoria">
+              <PropertyRef Name="IdSubCategoria" />
+            </Principal>
+            <Dependent Role="Producto">
+              <PropertyRef Name="IdSubCategoria" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__ProductoS__IdPro__02FC7413">
+          <End Role="Producto" Type="Self.Producto" Multiplicity="0..1" />
+          <End Role="ProductoSucursal" Type="Self.ProductoSucursal" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Producto">
+              <PropertyRef Name="IdProducto" />
+            </Principal>
+            <Dependent Role="ProductoSucursal">
+              <PropertyRef Name="IdProducto" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__ProductoS__IdSuc__03F0984C">
+          <End Role="Sucursal" Type="Self.Sucursal" Multiplicity="0..1" />
+          <End Role="ProductoSucursal" Type="Self.ProductoSucursal" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Sucursal">
+              <PropertyRef Name="IdSucursal" />
+            </Principal>
+            <Dependent Role="ProductoSucursal">
+              <PropertyRef Name="IdSucursal" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__SubCatego__IdCat__73BA3083">
+          <End Role="Categoria" Type="Self.Categoria" Multiplicity="0..1" />
+          <End Role="SubCategoria" Type="Self.SubCategoria" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Categoria">
+              <PropertyRef Name="IdCategoria" />
+            </Principal>
+            <Dependent Role="SubCategoria">
+              <PropertyRef Name="IdCategoria" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Usuario__IdDirec__3A81B327">
+          <End Role="Direccion" Type="Self.Direccion" Multiplicity="0..1" />
+          <End Role="Usuario" Type="Self.Usuario" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Direccion">
+              <PropertyRef Name="IdDireccion" />
+            </Principal>
+            <Dependent Role="Usuario">
+              <PropertyRef Name="IdDireccion" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Usuario__IdRol__1DE57479">
+          <End Role="Rol" Type="Self.Rol" Multiplicity="0..1" />
+          <End Role="Usuario" Type="Self.Usuario" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Rol">
+              <PropertyRef Name="IdRol" />
+            </Principal>
+            <Dependent Role="Usuario">
+              <PropertyRef Name="IdRol" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Function Name="ColoniaGetByIdMunicipio" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="IdMunicipio" Type="int" Mode="In" />
+        </Function>
+        <Function Name="DetallePedidoAdd" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="IdPedido" Type="int" Mode="In" />
+          <Parameter Name="IdProducto" Type="int" Mode="In" />
+          <Parameter Name="Cantidad" Type="int" Mode="In" />
+        </Function>
+        <Function Name="EstadoGetAll" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="MunicipioGetByIdEstado" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="IdEstado" Type="int" Mode="In" />
+        </Function>
+        <Function Name="PedidoAdd" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="IdUsuario" Type="int" Mode="In" />
+          <Parameter Name="IdDirección" Type="int" Mode="In" />
+          <Parameter Name="IdPedido" Type="int" Mode="InOut" />
+        </Function>
+        <Function Name="ProductoAdd" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Nombre" Type="varchar" Mode="In" />
+          <Parameter Name="Descripcion" Type="varchar" Mode="In" />
+          <Parameter Name="Precio" Type="decimal" Mode="In" />
+          <Parameter Name="Imagen" Type="varbinary(max)" Mode="In" />
+          <Parameter Name="IdSuCategoria" Type="int" Mode="In" />
+        </Function>
+        <Function Name="ProductoByIdSubcategoria" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="IdSubCategoria" Type="int" Mode="In" />
+        </Function>
+        <Function Name="ProductoByIdSucursal" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="IdSucursal" Type="int" Mode="In" />
+        </Function>
+        <Function Name="ProductoDelete" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="IdProducto" Type="int" Mode="In" />
+        </Function>
+        <Function Name="ProductoGetAll" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="ProductoGetById" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="IdProducto" Type="int" Mode="In" />
+        </Function>
+        <Function Name="ProductoSucursalDelete" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="IdProductoSucursal" Type="int" Mode="In" />
+        </Function>
+        <Function Name="ProductoSucursalGetAll" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="ProductoSucursalUpdate" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Stock" Type="int" Mode="In" />
+          <Parameter Name="IdProductoSucursal" Type="int" Mode="In" />
+        </Function>
+        <Function Name="ProductoUpdate" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="IdProducto" Type="int" Mode="In" />
+          <Parameter Name="Nombre" Type="varchar" Mode="In" />
+          <Parameter Name="Descripcion" Type="varchar" Mode="In" />
+          <Parameter Name="Precio" Type="decimal" Mode="In" />
+          <Parameter Name="Imagen" Type="varbinary(max)" Mode="In" />
+          <Parameter Name="IdSuCategoria" Type="int" Mode="In" />
+        </Function>
+        <Function Name="RolGetAll" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="SucursalGetAll" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="UsuarioAdd" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="UserName" Type="varchar" Mode="In" />
+          <Parameter Name="Nombre" Type="varchar" Mode="In" />
+          <Parameter Name="Email" Type="varchar" Mode="In" />
+          <Parameter Name="Password" Type="varchar" Mode="In" />
+          <Parameter Name="IdRol" Type="tinyint" Mode="In" />
+          <Parameter Name="ApellidoPaterno" Type="varchar" Mode="In" />
+          <Parameter Name="Sexo" Type="char" Mode="In" />
+          <Parameter Name="Telefono" Type="varchar" Mode="In" />
+          <Parameter Name="Celular" Type="varchar" Mode="In" />
+          <Parameter Name="FechaNacimiento" Type="date" Mode="In" />
+          <Parameter Name="Curp" Type="varchar" Mode="In" />
+          <Parameter Name="ApellidoMaterno" Type="varchar" Mode="In" />
+          <Parameter Name="Calle" Type="varchar" Mode="In" />
+          <Parameter Name="NumeroInterior" Type="varchar" Mode="In" />
+          <Parameter Name="NumeroExterior" Type="varchar" Mode="In" />
+          <Parameter Name="IdColonia" Type="int" Mode="In" />
+          <Parameter Name="Imagen" Type="varchar(max)" Mode="In" />
+          <Parameter Name="IdAspNet" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="UsuarioDelete" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="IdUsuario" Type="int" Mode="In" />
+          <Parameter Name="IdDireccion" Type="int" Mode="In" />
+        </Function>
+        <Function Name="UsuarioGetAll" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Nombre" Type="varchar" Mode="In" />
+          <Parameter Name="ApellidoPaterno" Type="varchar" Mode="In" />
+          <Parameter Name="ApellidoMaterno" Type="varchar" Mode="In" />
+          <Parameter Name="IdRol" Type="int" Mode="In" />
+        </Function>
+        <Function Name="UsuarioGetById" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="IdUsuario" Type="int" Mode="In" />
+        </Function>
+        <Function Name="UsuarioGetByIdidentity" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="IdAspNet" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="UsuarioUpdate" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="IdUsuario" Type="int" Mode="In" />
+          <Parameter Name="UserName" Type="varchar" Mode="In" />
+          <Parameter Name="Nombre" Type="varchar" Mode="In" />
+          <Parameter Name="Email" Type="varchar" Mode="In" />
+          <Parameter Name="Password" Type="varchar" Mode="In" />
+          <Parameter Name="IdRol" Type="tinyint" Mode="In" />
+          <Parameter Name="ApellidoPaterno" Type="varchar" Mode="In" />
+          <Parameter Name="Sexo" Type="char" Mode="In" />
+          <Parameter Name="Telefono" Type="varchar" Mode="In" />
+          <Parameter Name="Celular" Type="varchar" Mode="In" />
+          <Parameter Name="FechaNacimiento" Type="date" Mode="In" />
+          <Parameter Name="Curp" Type="varchar" Mode="In" />
+          <Parameter Name="ApellidoMaterno" Type="varchar" Mode="In" />
+          <Parameter Name="IdDireccion" Type="int" Mode="In" />
+          <Parameter Name="Imagen" Type="varchar(max)" Mode="In" />
+          <Parameter Name="Calle" Type="varchar" Mode="In" />
+          <Parameter Name="NumeroInterior" Type="varchar" Mode="In" />
+          <Parameter Name="NumeroExterior" Type="varchar" Mode="In" />
+          <Parameter Name="IdColonia" Type="int" Mode="In" />
+        </Function>
+        <Function Name="UsuarioUpdateStatus" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="IdUsuario" Type="int" Mode="In" />
+          <Parameter Name="Status" Type="bit" Mode="In" />
+        </Function>
+        <EntityContainer Name="AOrtegaProgramacionNCapasModelStoreContainer">
+          <EntitySet Name="Categoria" EntityType="Self.Categoria" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Colonia" EntityType="Self.Colonia" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Direccion" EntityType="Self.Direccion" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Estado" EntityType="Self.Estado" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Municipio" EntityType="Self.Municipio" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Producto" EntityType="Self.Producto" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ProductoSucursal" EntityType="Self.ProductoSucursal" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Rol" EntityType="Self.Rol" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SubCategoria" EntityType="Self.SubCategoria" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Sucursal" EntityType="Self.Sucursal" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Usuario" EntityType="Self.Usuario" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__Colonia__IdMunic__2C3393D0" Association="Self.FK__Colonia__IdMunic__2C3393D0">
+            <End Role="Municipio" EntitySet="Municipio" />
+            <End Role="Colonia" EntitySet="Colonia" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Direccion__IdCol__2F10007B" Association="Self.FK__Direccion__IdCol__2F10007B">
+            <End Role="Colonia" EntitySet="Colonia" />
+            <End Role="Direccion" EntitySet="Direccion" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Municipio__IdEst__29572725" Association="Self.FK__Municipio__IdEst__29572725">
+            <End Role="Estado" EntitySet="Estado" />
+            <End Role="Municipio" EntitySet="Municipio" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Producto__IdSubC__76969D2E" Association="Self.FK__Producto__IdSubC__76969D2E">
+            <End Role="SubCategoria" EntitySet="SubCategoria" />
+            <End Role="Producto" EntitySet="Producto" />
+          </AssociationSet>
+          <AssociationSet Name="FK__ProductoS__IdPro__02FC7413" Association="Self.FK__ProductoS__IdPro__02FC7413">
+            <End Role="Producto" EntitySet="Producto" />
+            <End Role="ProductoSucursal" EntitySet="ProductoSucursal" />
+          </AssociationSet>
+          <AssociationSet Name="FK__ProductoS__IdSuc__03F0984C" Association="Self.FK__ProductoS__IdSuc__03F0984C">
+            <End Role="Sucursal" EntitySet="Sucursal" />
+            <End Role="ProductoSucursal" EntitySet="ProductoSucursal" />
+          </AssociationSet>
+          <AssociationSet Name="FK__SubCatego__IdCat__73BA3083" Association="Self.FK__SubCatego__IdCat__73BA3083">
+            <End Role="Categoria" EntitySet="Categoria" />
+            <End Role="SubCategoria" EntitySet="SubCategoria" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Usuario__IdDirec__3A81B327" Association="Self.FK__Usuario__IdDirec__3A81B327">
+            <End Role="Direccion" EntitySet="Direccion" />
+            <End Role="Usuario" EntitySet="Usuario" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Usuario__IdRol__1DE57479" Association="Self.FK__Usuario__IdRol__1DE57479">
+            <End Role="Rol" EntitySet="Rol" />
+            <End Role="Usuario" EntitySet="Usuario" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="AOrtegaProgramacionNCapasModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Rol">
+          <Key>
+            <PropertyRef Name="IdRol" />
+          </Key>
+          <Property Name="IdRol" Type="Byte" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Usuarios" Relationship="AOrtegaProgramacionNCapasModel.FK__Usuario__IdRol__1DE57479" FromRole="Rol" ToRole="Usuario" />
+        </EntityType>
+        <EntityContainer Name="AOrtegaProgramacionNCapasEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Rols" EntityType="Self.Rol" />
+          <FunctionImport Name="RolGetAll" ReturnType="Collection(AOrtegaProgramacionNCapasModel.RolGetAll_Result)" />
+          <FunctionImport Name="EstadoGetAll" ReturnType="Collection(AOrtegaProgramacionNCapasModel.EstadoGetAll_Result)" />
+          <EntitySet Name="Colonias" EntityType="AOrtegaProgramacionNCapasModel.Colonia" />
+          <EntitySet Name="Direccions" EntityType="AOrtegaProgramacionNCapasModel.Direccion" />
+          <EntitySet Name="Estadoes" EntityType="AOrtegaProgramacionNCapasModel.Estado" />
+          <EntitySet Name="Municipios" EntityType="AOrtegaProgramacionNCapasModel.Municipio" />
+          <AssociationSet Name="FK__Colonia__IdMunic__2C3393D0" Association="AOrtegaProgramacionNCapasModel.FK__Colonia__IdMunic__2C3393D0">
+            <End Role="Municipio" EntitySet="Municipios" />
+            <End Role="Colonia" EntitySet="Colonias" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Direccion__IdCol__2F10007B" Association="AOrtegaProgramacionNCapasModel.FK__Direccion__IdCol__2F10007B">
+            <End Role="Colonia" EntitySet="Colonias" />
+            <End Role="Direccion" EntitySet="Direccions" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Municipio__IdEst__29572725" Association="AOrtegaProgramacionNCapasModel.FK__Municipio__IdEst__29572725">
+            <End Role="Estado" EntitySet="Estadoes" />
+            <End Role="Municipio" EntitySet="Municipios" />
+          </AssociationSet>
+          <FunctionImport Name="MunicipioGetByIdEstado" ReturnType="Collection(AOrtegaProgramacionNCapasModel.MunicipioGetByIdEstado_Result)">
+          <Parameter Name="IdEstado" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="ColoniaGetByIdMunicipio" ReturnType="Collection(AOrtegaProgramacionNCapasModel.ColoniaGetByIdMunicipio_Result)">
+          <Parameter Name="IdMunicipio" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="UsuarioGetById" ReturnType="Collection(AOrtegaProgramacionNCapasModel.UsuarioGetById_Result)">
+          <Parameter Name="IdUsuario" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="UsuarioUpdate">
+            <Parameter Name="IdUsuario" Mode="In" Type="Int32" />
+            <Parameter Name="UserName" Mode="In" Type="String" />
+            <Parameter Name="Nombre" Mode="In" Type="String" />
+            <Parameter Name="Email" Mode="In" Type="String" />
+            <Parameter Name="Password" Mode="In" Type="String" />
+            <Parameter Name="IdRol" Mode="In" Type="Byte" />
+            <Parameter Name="ApellidoPaterno" Mode="In" Type="String" />
+            <Parameter Name="Sexo" Mode="In" Type="String" />
+            <Parameter Name="Telefono" Mode="In" Type="String" />
+            <Parameter Name="Celular" Mode="In" Type="String" />
+            <Parameter Name="FechaNacimiento" Mode="In" Type="DateTime" />
+            <Parameter Name="Curp" Mode="In" Type="String" />
+            <Parameter Name="ApellidoMaterno" Mode="In" Type="String" />
+            <Parameter Name="IdDireccion" Mode="In" Type="Int32" />
+            <Parameter Name="Imagen" Mode="In" Type="String" />
+            <Parameter Name="Calle" Mode="In" Type="String" />
+            <Parameter Name="NumeroInterior" Mode="In" Type="String" />
+            <Parameter Name="NumeroExterior" Mode="In" Type="String" />
+            <Parameter Name="IdColonia" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="UsuarioDelete">
+            <Parameter Name="IdUsuario" Mode="In" Type="Int32" />
+            <Parameter Name="IdDireccion" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="UsuarioUpdateStatus">
+            <Parameter Name="IdUsuario" Mode="In" Type="Int32" />
+            <Parameter Name="Status" Mode="In" Type="Boolean" />
+          </FunctionImport>
+          <FunctionImport Name="UsuarioAdd">
+            <Parameter Name="UserName" Mode="In" Type="String" />
+            <Parameter Name="Nombre" Mode="In" Type="String" />
+            <Parameter Name="Email" Mode="In" Type="String" />
+            <Parameter Name="Password" Mode="In" Type="String" />
+            <Parameter Name="IdRol" Mode="In" Type="Byte" />
+            <Parameter Name="ApellidoPaterno" Mode="In" Type="String" />
+            <Parameter Name="Sexo" Mode="In" Type="String" />
+            <Parameter Name="Telefono" Mode="In" Type="String" />
+            <Parameter Name="Celular" Mode="In" Type="String" />
+            <Parameter Name="FechaNacimiento" Mode="In" Type="DateTime" />
+            <Parameter Name="Curp" Mode="In" Type="String" />
+            <Parameter Name="ApellidoMaterno" Mode="In" Type="String" />
+            <Parameter Name="Calle" Mode="In" Type="String" />
+            <Parameter Name="NumeroInterior" Mode="In" Type="String" />
+            <Parameter Name="NumeroExterior" Mode="In" Type="String" />
+            <Parameter Name="IdColonia" Mode="In" Type="Int32" />
+            <Parameter Name="Imagen" Mode="In" Type="String" />
+            <Parameter Name="IdAspNet" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="UsuarioGetAll" ReturnType="Collection(AOrtegaProgramacionNCapasModel.UsuarioGetAll_Result)">
+            <Parameter Name="Nombre" Mode="In" Type="String" />
+            <Parameter Name="ApellidoPaterno" Mode="In" Type="String" />
+            <Parameter Name="ApellidoMaterno" Mode="In" Type="String" />
+            <Parameter Name="IdRol" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <EntitySet Name="Usuarios" EntityType="AOrtegaProgramacionNCapasModel.Usuario" />
+          <AssociationSet Name="FK__Usuario__IdDirec__3A81B327" Association="AOrtegaProgramacionNCapasModel.FK__Usuario__IdDirec__3A81B327">
+            <End Role="Direccion" EntitySet="Direccions" />
+            <End Role="Usuario" EntitySet="Usuarios" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Usuario__IdRol__1DE57479" Association="AOrtegaProgramacionNCapasModel.FK__Usuario__IdRol__1DE57479">
+            <End Role="Rol" EntitySet="Rols" />
+            <End Role="Usuario" EntitySet="Usuarios" />
+          </AssociationSet>
+          <EntitySet Name="Categorias" EntityType="AOrtegaProgramacionNCapasModel.Categoria" />
+          <EntitySet Name="Productoes" EntityType="AOrtegaProgramacionNCapasModel.Producto" />
+          <EntitySet Name="SubCategorias" EntityType="AOrtegaProgramacionNCapasModel.SubCategoria" />
+          <AssociationSet Name="FK__SubCatego__IdCat__73BA3083" Association="AOrtegaProgramacionNCapasModel.FK__SubCatego__IdCat__73BA3083">
+            <End Role="Categoria" EntitySet="Categorias" />
+            <End Role="SubCategoria" EntitySet="SubCategorias" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Producto__IdSubC__76969D2E" Association="AOrtegaProgramacionNCapasModel.FK__Producto__IdSubC__76969D2E">
+            <End Role="SubCategoria" EntitySet="SubCategorias" />
+            <End Role="Producto" EntitySet="Productoes" />
+          </AssociationSet>
+          <FunctionImport Name="ProductoAdd">
+            <Parameter Name="Nombre" Mode="In" Type="String" />
+            <Parameter Name="Descripcion" Mode="In" Type="String" />
+            <Parameter Name="Precio" Mode="In" Type="Decimal" />
+            <Parameter Name="Imagen" Mode="In" Type="Binary" />
+            <Parameter Name="IdSuCategoria" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="ProductoDelete">
+          <Parameter Name="IdProducto" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="ProductoGetById" ReturnType="Collection(AOrtegaProgramacionNCapasModel.ProductoGetById_Result)">
+          <Parameter Name="IdProducto" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="ProductoUpdate">
+            <Parameter Name="IdProducto" Mode="In" Type="Int32" />
+            <Parameter Name="Nombre" Mode="In" Type="String" />
+            <Parameter Name="Descripcion" Mode="In" Type="String" />
+            <Parameter Name="Precio" Mode="In" Type="Decimal" />
+            <Parameter Name="Imagen" Mode="In" Type="Binary" />
+            <Parameter Name="IdSuCategoria" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="SucursalGetAll" ReturnType="Collection(AOrtegaProgramacionNCapasModel.SucursalGetAll_Result)" />
+          <EntitySet Name="Sucursals" EntityType="AOrtegaProgramacionNCapasModel.Sucursal" />
+          <EntitySet Name="ProductoSucursals" EntityType="AOrtegaProgramacionNCapasModel.ProductoSucursal" />
+          <AssociationSet Name="FK__ProductoS__IdPro__02FC7413" Association="AOrtegaProgramacionNCapasModel.FK__ProductoS__IdPro__02FC7413">
+            <End Role="Producto" EntitySet="Productoes" />
+            <End Role="ProductoSucursal" EntitySet="ProductoSucursals" />
+          </AssociationSet>
+          <AssociationSet Name="FK__ProductoS__IdSuc__03F0984C" Association="AOrtegaProgramacionNCapasModel.FK__ProductoS__IdSuc__03F0984C">
+            <End Role="Sucursal" EntitySet="Sucursals" />
+            <End Role="ProductoSucursal" EntitySet="ProductoSucursals" />
+          </AssociationSet>
+          <FunctionImport Name="ProductoSucursalGetAll" ReturnType="Collection(AOrtegaProgramacionNCapasModel.ProductoSucursalGetAll_Result)" />
+          <FunctionImport Name="ProductoSucursalDelete">
+          <Parameter Name="IdProductoSucursal" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="ProductoSucursalUpdate">
+            <Parameter Name="Stock" Mode="In" Type="Int32" />
+            <Parameter Name="IdProductoSucursal" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="ProductoByIdSucursal" ReturnType="Collection(AOrtegaProgramacionNCapasModel.ProductoByIdSucursal_Result)">
+          <Parameter Name="IdSucursal" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="ProductoGetAll" ReturnType="Collection(AOrtegaProgramacionNCapasModel.ProductoGetAll_Result)" />
+          <FunctionImport Name="ProductoByIdSubcategoria" ReturnType="Collection(AOrtegaProgramacionNCapasModel.ProductoByIdSubcategoria_Result)">
+          <Parameter Name="IdSubCategoria" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="UsuarioGetByIdidentity" ReturnType="Collection(AOrtegaProgramacionNCapasModel.UsuarioGetByIdidentity_Result)">
+          <Parameter Name="IdAspNet" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="PedidoAdd">
+            <Parameter Name="IdUsuario" Mode="In" Type="Int32" />
+            <Parameter Name="IdDirección" Mode="In" Type="Int32" />
+            <Parameter Name="IdPedido" Mode="InOut" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="DetallePedidoAdd">
+            <Parameter Name="IdPedido" Mode="In" Type="Int32" />
+            <Parameter Name="IdProducto" Mode="In" Type="Int32" />
+            <Parameter Name="Cantidad" Mode="In" Type="Int32" />
+          </FunctionImport>
+        </EntityContainer>
+        <ComplexType Name="RolGetAll_Result">
+          <Property Type="Byte" Name="IdRol" Nullable="false" />
+          <Property Type="String" Name="Nombre" Nullable="true" MaxLength="50" />
+        </ComplexType>
+        <ComplexType Name="EstadoGetAll_Result">
+          <Property Type="Byte" Name="IdEstado" Nullable="false" />
+          <Property Type="String" Name="Nombre" Nullable="true" MaxLength="50" />
+        </ComplexType>
+        <EntityType Name="Colonia">
+          <Key>
+            <PropertyRef Name="IdColonia" />
+          </Key>
+          <Property Name="IdColonia" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nombre" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="IdMunicipio" Type="Byte" />
+          <Property Name="CodigoPostal" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Municipio" Relationship="AOrtegaProgramacionNCapasModel.FK__Colonia__IdMunic__2C3393D0" FromRole="Colonia" ToRole="Municipio" />
+          <NavigationProperty Name="Direccions" Relationship="AOrtegaProgramacionNCapasModel.FK__Direccion__IdCol__2F10007B" FromRole="Colonia" ToRole="Direccion" />
+        </EntityType>
+        <EntityType Name="Direccion">
+          <Key>
+            <PropertyRef Name="IdDireccion" />
+          </Key>
+          <Property Name="IdDireccion" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Calle" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="NumeroInterior" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="NumeroExterior" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="IdColonia" Type="Int32" />
+          <NavigationProperty Name="Colonia" Relationship="AOrtegaProgramacionNCapasModel.FK__Direccion__IdCol__2F10007B" FromRole="Direccion" ToRole="Colonia" />
+          <NavigationProperty Name="Usuarios" Relationship="AOrtegaProgramacionNCapasModel.FK__Usuario__IdDirec__3A81B327" FromRole="Direccion" ToRole="Usuario" />
+        </EntityType>
+        <EntityType Name="Estado">
+          <Key>
+            <PropertyRef Name="IdEstado" />
+          </Key>
+          <Property Name="IdEstado" Type="Byte" Nullable="false" />
+          <Property Name="Nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Municipios" Relationship="AOrtegaProgramacionNCapasModel.FK__Municipio__IdEst__29572725" FromRole="Estado" ToRole="Municipio" />
+        </EntityType>
+        <EntityType Name="Municipio">
+          <Key>
+            <PropertyRef Name="IdMunicipio" />
+          </Key>
+          <Property Name="IdMunicipio" Type="Byte" Nullable="false" />
+          <Property Name="Nombre" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="IdEstado" Type="Byte" />
+          <NavigationProperty Name="Colonias" Relationship="AOrtegaProgramacionNCapasModel.FK__Colonia__IdMunic__2C3393D0" FromRole="Municipio" ToRole="Colonia" />
+          <NavigationProperty Name="Estado" Relationship="AOrtegaProgramacionNCapasModel.FK__Municipio__IdEst__29572725" FromRole="Municipio" ToRole="Estado" />
+        </EntityType>
+        <Association Name="FK__Colonia__IdMunic__2C3393D0">
+          <End Type="AOrtegaProgramacionNCapasModel.Municipio" Role="Municipio" Multiplicity="0..1" />
+          <End Type="AOrtegaProgramacionNCapasModel.Colonia" Role="Colonia" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Municipio">
+              <PropertyRef Name="IdMunicipio" />
+            </Principal>
+            <Dependent Role="Colonia">
+              <PropertyRef Name="IdMunicipio" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Direccion__IdCol__2F10007B">
+          <End Type="AOrtegaProgramacionNCapasModel.Colonia" Role="Colonia" Multiplicity="0..1" />
+          <End Type="AOrtegaProgramacionNCapasModel.Direccion" Role="Direccion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Colonia">
+              <PropertyRef Name="IdColonia" />
+            </Principal>
+            <Dependent Role="Direccion">
+              <PropertyRef Name="IdColonia" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Municipio__IdEst__29572725">
+          <End Type="AOrtegaProgramacionNCapasModel.Estado" Role="Estado" Multiplicity="0..1" />
+          <End Type="AOrtegaProgramacionNCapasModel.Municipio" Role="Municipio" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Estado">
+              <PropertyRef Name="IdEstado" />
+            </Principal>
+            <Dependent Role="Municipio">
+              <PropertyRef Name="IdEstado" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <ComplexType Name="MunicipioGetByIdEstado_Result">
+          <Property Type="Byte" Name="IdMunicipio" Nullable="false" />
+          <Property Type="String" Name="Nombre" Nullable="true" MaxLength="100" />
+          <Property Type="Byte" Name="IdEstado" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="ColoniaGetByIdMunicipio_Result">
+          <Property Type="Int32" Name="IdColonia" Nullable="false" />
+          <Property Type="String" Name="Nombre" Nullable="true" MaxLength="100" />
+          <Property Type="Byte" Name="IdMunicipio" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="UsuarioGetById_Result">
+          <Property Type="Int32" Name="IdUsuario" Nullable="false" />
+          <Property Type="String" Name="UserName" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="Nombre" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="Email" Nullable="false" MaxLength="254" />
+          <Property Type="String" Name="Password" Nullable="false" MaxLength="50" />
+          <Property Type="Byte" Name="IdRol" Nullable="true" />
+          <Property Type="String" Name="ApellidoPaterno" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="Sexo" Nullable="false" MaxLength="2" />
+          <Property Type="String" Name="Telefono" Nullable="false" MaxLength="20" />
+          <Property Type="String" Name="Celular" Nullable="false" MaxLength="20" />
+          <Property Type="DateTime" Name="FechaNacimiento" Nullable="false" />
+          <Property Type="String" Name="Curp" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="ApellidoMaterno" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="Imagen" Nullable="true" />
+          <Property Type="Int32" Name="IdDireccion" Nullable="true" />
+          <Property Type="String" Name="Calle" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="NumeroInterior" Nullable="true" MaxLength="10" />
+          <Property Type="String" Name="NumeroExterior" Nullable="true" MaxLength="10" />
+          <Property Type="Int32" Name="IdColonia" Nullable="true" />
+          <Property Type="String" Name="CodigoPostal" Nullable="true" MaxLength="10" />
+          <Property Type="Byte" Name="IdMunicipio" Nullable="true" />
+          <Property Type="Byte" Name="IdEstado" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="UsuarioGetAll_Result">
+          <Property Type="Int32" Name="IdUsuario" Nullable="false" />
+          <Property Type="String" Name="UserName" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="Nombre" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="Email" Nullable="false" MaxLength="254" />
+          <Property Type="String" Name="Password" Nullable="false" MaxLength="50" />
+          <Property Type="Byte" Name="IdRol" Nullable="true" />
+          <Property Type="String" Name="NombreRol" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="ApellidoPaterno" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="Sexo" Nullable="false" MaxLength="1" />
+          <Property Type="String" Name="Telefono" Nullable="false" MaxLength="20" />
+          <Property Type="String" Name="Celular" Nullable="false" MaxLength="20" />
+          <Property Type="DateTime" Name="FechaNacimiento" Nullable="false" />
+          <Property Type="String" Name="Curp" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="ApellidoMaterno" Nullable="false" MaxLength="50" />
+          <Property Type="Boolean" Name="Status" Nullable="true" />
+          <Property Type="Int32" Name="IdDireccion" Nullable="true" />
+          <Property Type="String" Name="Calle" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="NumeroExterior" Nullable="true" MaxLength="10" />
+          <Property Type="String" Name="NumeroInterior" Nullable="true" MaxLength="10" />
+        </ComplexType>
+        <EntityType Name="Usuario">
+          <Key>
+            <PropertyRef Name="IdUsuario" />
+          </Key>
+          <Property Name="IdUsuario" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Nombre" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Email" Type="String" Nullable="false" MaxLength="254" FixedLength="false" Unicode="false" />
+          <Property Name="Password" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="IdRol" Type="Byte" />
+          <Property Name="ApellidoPaterno" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Sexo" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="Telefono" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="Celular" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="FechaNacimiento" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="Curp" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ApellidoMaterno" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="IdDireccion" Type="Int32" />
+          <Property Name="Imagen" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Status" Type="Boolean" />
+          <Property Name="Edad" Type="Int32" />
+          <Property Name="IdAspNet" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Direccion" Relationship="AOrtegaProgramacionNCapasModel.FK__Usuario__IdDirec__3A81B327" FromRole="Usuario" ToRole="Direccion" />
+          <NavigationProperty Name="Rol" Relationship="AOrtegaProgramacionNCapasModel.FK__Usuario__IdRol__1DE57479" FromRole="Usuario" ToRole="Rol" />
+        </EntityType>
+        <Association Name="FK__Usuario__IdDirec__3A81B327">
+          <End Type="AOrtegaProgramacionNCapasModel.Direccion" Role="Direccion" Multiplicity="0..1" />
+          <End Type="AOrtegaProgramacionNCapasModel.Usuario" Role="Usuario" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Direccion">
+              <PropertyRef Name="IdDireccion" />
+            </Principal>
+            <Dependent Role="Usuario">
+              <PropertyRef Name="IdDireccion" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Usuario__IdRol__1DE57479">
+          <End Type="AOrtegaProgramacionNCapasModel.Rol" Role="Rol" Multiplicity="0..1" />
+          <End Type="AOrtegaProgramacionNCapasModel.Usuario" Role="Usuario" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Rol">
+              <PropertyRef Name="IdRol" />
+            </Principal>
+            <Dependent Role="Usuario">
+              <PropertyRef Name="IdRol" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Categoria">
+          <Key>
+            <PropertyRef Name="IdCategoria" />
+          </Key>
+          <Property Name="IdCategoria" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nombre" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="SubCategorias" Relationship="AOrtegaProgramacionNCapasModel.FK__SubCatego__IdCat__73BA3083" FromRole="Categoria" ToRole="SubCategoria" />
+        </EntityType>
+        <EntityType Name="Producto">
+          <Key>
+            <PropertyRef Name="IdProducto" />
+          </Key>
+          <Property Name="IdProducto" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nombre" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Descripcion" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="Precio" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="Imagen" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <Property Name="IdSubCategoria" Type="Int32" />
+          <NavigationProperty Name="SubCategoria" Relationship="AOrtegaProgramacionNCapasModel.FK__Producto__IdSubC__76969D2E" FromRole="Producto" ToRole="SubCategoria" />
+          <NavigationProperty Name="ProductoSucursals" Relationship="AOrtegaProgramacionNCapasModel.FK__ProductoS__IdPro__02FC7413" FromRole="Producto" ToRole="ProductoSucursal" />
+        </EntityType>
+        <EntityType Name="SubCategoria">
+          <Key>
+            <PropertyRef Name="IdSubCategoria" />
+          </Key>
+          <Property Name="IdSubCategoria" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nombre" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="IdCategoria" Type="Int32" />
+          <NavigationProperty Name="Categoria" Relationship="AOrtegaProgramacionNCapasModel.FK__SubCatego__IdCat__73BA3083" FromRole="SubCategoria" ToRole="Categoria" />
+          <NavigationProperty Name="Productoes" Relationship="AOrtegaProgramacionNCapasModel.FK__Producto__IdSubC__76969D2E" FromRole="SubCategoria" ToRole="Producto" />
+        </EntityType>
+        <Association Name="FK__SubCatego__IdCat__73BA3083">
+          <End Type="AOrtegaProgramacionNCapasModel.Categoria" Role="Categoria" Multiplicity="0..1" />
+          <End Type="AOrtegaProgramacionNCapasModel.SubCategoria" Role="SubCategoria" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Categoria">
+              <PropertyRef Name="IdCategoria" />
+            </Principal>
+            <Dependent Role="SubCategoria">
+              <PropertyRef Name="IdCategoria" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Producto__IdSubC__76969D2E">
+          <End Type="AOrtegaProgramacionNCapasModel.SubCategoria" Role="SubCategoria" Multiplicity="0..1" />
+          <End Type="AOrtegaProgramacionNCapasModel.Producto" Role="Producto" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SubCategoria">
+              <PropertyRef Name="IdSubCategoria" />
+            </Principal>
+            <Dependent Role="Producto">
+              <PropertyRef Name="IdSubCategoria" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <ComplexType Name="ProductoGetById_Result">
+          <Property Type="Int32" Name="IdProducto" Nullable="false" />
+          <Property Type="String" Name="Nombre" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="Descripcion" Nullable="true" MaxLength="500" />
+          <Property Type="Decimal" Name="Precio" Nullable="true" Precision="18" Scale="0" />
+          <Property Type="Binary" Name="Imagen" Nullable="true" />
+          <Property Type="Int32" Name="IdSubCategoria" Nullable="true" />
+          <Property Type="Int32" Name="IdCategoria" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="SucursalGetAll_Result">
+          <Property Type="Int32" Name="IdSucursal" Nullable="false" />
+          <Property Type="String" Name="Nombre" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="Latitud" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="Longitud" Nullable="true" MaxLength="50" />
+        </ComplexType>
+        <EntityType Name="Sucursal">
+          <Key>
+            <PropertyRef Name="IdSucursal" />
+          </Key>
+          <Property Name="IdSucursal" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Latitud" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Longitud" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="ProductoSucursals" Relationship="AOrtegaProgramacionNCapasModel.FK__ProductoS__IdSuc__03F0984C" FromRole="Sucursal" ToRole="ProductoSucursal" />
+        </EntityType>
+        <EntityType Name="ProductoSucursal">
+          <Key>
+            <PropertyRef Name="IdProductoSucursal" />
+          </Key>
+          <Property Name="IdProductoSucursal" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IdProducto" Type="Int32" />
+          <Property Name="IdSucursal" Type="Int32" />
+          <Property Name="Stock" Type="Int32" />
+          <NavigationProperty Name="Producto" Relationship="AOrtegaProgramacionNCapasModel.FK__ProductoS__IdPro__02FC7413" FromRole="ProductoSucursal" ToRole="Producto" />
+          <NavigationProperty Name="Sucursal" Relationship="AOrtegaProgramacionNCapasModel.FK__ProductoS__IdSuc__03F0984C" FromRole="ProductoSucursal" ToRole="Sucursal" />
+        </EntityType>
+        <Association Name="FK__ProductoS__IdPro__02FC7413">
+          <End Type="AOrtegaProgramacionNCapasModel.Producto" Role="Producto" Multiplicity="0..1" />
+          <End Type="AOrtegaProgramacionNCapasModel.ProductoSucursal" Role="ProductoSucursal" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Producto">
+              <PropertyRef Name="IdProducto" />
+            </Principal>
+            <Dependent Role="ProductoSucursal">
+              <PropertyRef Name="IdProducto" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__ProductoS__IdSuc__03F0984C">
+          <End Type="AOrtegaProgramacionNCapasModel.Sucursal" Role="Sucursal" Multiplicity="0..1" />
+          <End Type="AOrtegaProgramacionNCapasModel.ProductoSucursal" Role="ProductoSucursal" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Sucursal">
+              <PropertyRef Name="IdSucursal" />
+            </Principal>
+            <Dependent Role="ProductoSucursal">
+              <PropertyRef Name="IdSucursal" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <ComplexType Name="ProductoSucursalGetAll_Result">
+          <Property Type="Int32" Name="IdProductoSucursal" Nullable="false" />
+          <Property Type="Int32" Name="IdProducto" Nullable="true" />
+          <Property Type="Int32" Name="IdSucursal" Nullable="true" />
+          <Property Type="Int32" Name="Stock" Nullable="true" />
+          <Property Type="Int32" Name="ProductoId" Nullable="false" />
+          <Property Type="String" Name="Producto" Nullable="true" MaxLength="100" />
+          <Property Type="Int32" Name="SucursalID" Nullable="false" />
+          <Property Type="String" Name="Sucursal" Nullable="true" MaxLength="50" />
+        </ComplexType>
+        <ComplexType Name="ProductoByIdSucursal_Result">
+          <Property Type="Int32" Name="IdProductoSucursal" Nullable="false" />
+          <Property Type="Int32" Name="IdProducto" Nullable="true" />
+          <Property Type="Int32" Name="IdSucursal" Nullable="true" />
+          <Property Type="Int32" Name="Stock" Nullable="true" />
+          <Property Type="Int32" Name="ProductoId" Nullable="false" />
+          <Property Type="String" Name="Producto" Nullable="true" MaxLength="100" />
+          <Property Type="Binary" Name="Imagen" Nullable="true" />
+          <Property Type="Int32" Name="SucursalID" Nullable="false" />
+          <Property Type="String" Name="Sucursal" Nullable="true" MaxLength="50" />
+        </ComplexType>
+        <ComplexType Name="ProductoGetAll_Result">
+          <Property Type="Int32" Name="IdProducto" Nullable="false" />
+          <Property Type="String" Name="Nombre" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="Descripcion" Nullable="true" MaxLength="500" />
+          <Property Type="Decimal" Name="Precio" Nullable="true" Precision="18" Scale="0" />
+          <Property Type="Binary" Name="Imagen" Nullable="true" />
+          <Property Type="Int32" Name="IdSubCategoria" Nullable="true" />
+          <Property Type="String" Name="Categoria" Nullable="true" MaxLength="100" />
+        </ComplexType>
+        <ComplexType Name="ProductoByIdSubcategoria_Result">
+          <Property Type="Int32" Name="IdProducto" Nullable="false" />
+          <Property Type="String" Name="Nombre" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="Descripcion" Nullable="true" MaxLength="500" />
+          <Property Type="Decimal" Name="Precio" Nullable="true" Precision="18" Scale="0" />
+          <Property Type="Binary" Name="Imagen" Nullable="true" />
+          <Property Type="Int32" Name="IdSubCategoria" Nullable="true" />
+          <Property Type="String" Name="NombreCategoria" Nullable="true" MaxLength="100" />
+        </ComplexType>
+        <ComplexType Name="UsuarioGetByIdidentity_Result">
+          <Property Type="Int32" Name="IdUsuario" Nullable="false" />
+          <Property Type="String" Name="IdAspNet" Nullable="true" MaxLength="128" />
+          <Property Type="Int32" Name="IdDireccion" Nullable="true" />
+          <Property Type="String" Name="Id" Nullable="false" MaxLength="128" />
+        </ComplexType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="AOrtegaProgramacionNCapasModelStoreContainer" CdmEntityContainer="AOrtegaProgramacionNCapasEntities">
+          <EntitySetMapping Name="Rols">
+            <EntityTypeMapping TypeName="AOrtegaProgramacionNCapasModel.Rol">
+              <MappingFragment StoreEntitySet="Rol">
+                <ScalarProperty Name="IdRol" ColumnName="IdRol" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="RolGetAll" FunctionName="AOrtegaProgramacionNCapasModel.Store.RolGetAll">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="AOrtegaProgramacionNCapasModel.RolGetAll_Result">
+                <ScalarProperty Name="IdRol" ColumnName="IdRol" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="EstadoGetAll" FunctionName="AOrtegaProgramacionNCapasModel.Store.EstadoGetAll">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="AOrtegaProgramacionNCapasModel.EstadoGetAll_Result">
+                <ScalarProperty Name="IdEstado" ColumnName="IdEstado" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <EntitySetMapping Name="Colonias">
+            <EntityTypeMapping TypeName="AOrtegaProgramacionNCapasModel.Colonia">
+              <MappingFragment StoreEntitySet="Colonia">
+                <ScalarProperty Name="CodigoPostal" ColumnName="CodigoPostal" />
+                <ScalarProperty Name="IdMunicipio" ColumnName="IdMunicipio" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="IdColonia" ColumnName="IdColonia" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Direccions">
+            <EntityTypeMapping TypeName="AOrtegaProgramacionNCapasModel.Direccion">
+              <MappingFragment StoreEntitySet="Direccion">
+                <ScalarProperty Name="IdColonia" ColumnName="IdColonia" />
+                <ScalarProperty Name="NumeroExterior" ColumnName="NumeroExterior" />
+                <ScalarProperty Name="NumeroInterior" ColumnName="NumeroInterior" />
+                <ScalarProperty Name="Calle" ColumnName="Calle" />
+                <ScalarProperty Name="IdDireccion" ColumnName="IdDireccion" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Estadoes">
+            <EntityTypeMapping TypeName="AOrtegaProgramacionNCapasModel.Estado">
+              <MappingFragment StoreEntitySet="Estado">
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="IdEstado" ColumnName="IdEstado" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Municipios">
+            <EntityTypeMapping TypeName="AOrtegaProgramacionNCapasModel.Municipio">
+              <MappingFragment StoreEntitySet="Municipio">
+                <ScalarProperty Name="IdEstado" ColumnName="IdEstado" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="IdMunicipio" ColumnName="IdMunicipio" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="MunicipioGetByIdEstado" FunctionName="AOrtegaProgramacionNCapasModel.Store.MunicipioGetByIdEstado">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="AOrtegaProgramacionNCapasModel.MunicipioGetByIdEstado_Result">
+                <ScalarProperty Name="IdMunicipio" ColumnName="IdMunicipio" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="IdEstado" ColumnName="IdEstado" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="ColoniaGetByIdMunicipio" FunctionName="AOrtegaProgramacionNCapasModel.Store.ColoniaGetByIdMunicipio">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="AOrtegaProgramacionNCapasModel.ColoniaGetByIdMunicipio_Result">
+                <ScalarProperty Name="IdColonia" ColumnName="IdColonia" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="IdMunicipio" ColumnName="IdMunicipio" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="UsuarioGetById" FunctionName="AOrtegaProgramacionNCapasModel.Store.UsuarioGetById">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="AOrtegaProgramacionNCapasModel.UsuarioGetById_Result">
+                <ScalarProperty Name="IdUsuario" ColumnName="IdUsuario" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="IdRol" ColumnName="IdRol" />
+                <ScalarProperty Name="ApellidoPaterno" ColumnName="ApellidoPaterno" />
+                <ScalarProperty Name="Sexo" ColumnName="Sexo" />
+                <ScalarProperty Name="Telefono" ColumnName="Telefono" />
+                <ScalarProperty Name="Celular" ColumnName="Celular" />
+                <ScalarProperty Name="FechaNacimiento" ColumnName="FechaNacimiento" />
+                <ScalarProperty Name="Curp" ColumnName="Curp" />
+                <ScalarProperty Name="ApellidoMaterno" ColumnName="ApellidoMaterno" />
+                <ScalarProperty Name="Imagen" ColumnName="Imagen" />
+                <ScalarProperty Name="IdDireccion" ColumnName="IdDireccion" />
+                <ScalarProperty Name="Calle" ColumnName="Calle" />
+                <ScalarProperty Name="NumeroInterior" ColumnName="NumeroInterior" />
+                <ScalarProperty Name="NumeroExterior" ColumnName="NumeroExterior" />
+                <ScalarProperty Name="IdColonia" ColumnName="IdColonia" />
+                <ScalarProperty Name="CodigoPostal" ColumnName="CodigoPostal" />
+                <ScalarProperty Name="IdMunicipio" ColumnName="IdMunicipio" />
+                <ScalarProperty Name="IdEstado" ColumnName="IdEstado" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="UsuarioUpdate" FunctionName="AOrtegaProgramacionNCapasModel.Store.UsuarioUpdate" />
+          <FunctionImportMapping FunctionImportName="UsuarioDelete" FunctionName="AOrtegaProgramacionNCapasModel.Store.UsuarioDelete" />
+          <FunctionImportMapping FunctionImportName="UsuarioUpdateStatus" FunctionName="AOrtegaProgramacionNCapasModel.Store.UsuarioUpdateStatus" />
+          <FunctionImportMapping FunctionImportName="UsuarioAdd" FunctionName="AOrtegaProgramacionNCapasModel.Store.UsuarioAdd" />
+          <FunctionImportMapping FunctionImportName="UsuarioGetAll" FunctionName="AOrtegaProgramacionNCapasModel.Store.UsuarioGetAll">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="AOrtegaProgramacionNCapasModel.UsuarioGetAll_Result">
+                <ScalarProperty Name="IdUsuario" ColumnName="IdUsuario" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="IdRol" ColumnName="IdRol" />
+                <ScalarProperty Name="NombreRol" ColumnName="NombreRol" />
+                <ScalarProperty Name="ApellidoPaterno" ColumnName="ApellidoPaterno" />
+                <ScalarProperty Name="Sexo" ColumnName="Sexo" />
+                <ScalarProperty Name="Telefono" ColumnName="Telefono" />
+                <ScalarProperty Name="Celular" ColumnName="Celular" />
+                <ScalarProperty Name="FechaNacimiento" ColumnName="FechaNacimiento" />
+                <ScalarProperty Name="Curp" ColumnName="Curp" />
+                <ScalarProperty Name="ApellidoMaterno" ColumnName="ApellidoMaterno" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="IdDireccion" ColumnName="IdDireccion" />
+                <ScalarProperty Name="Calle" ColumnName="Calle" />
+                <ScalarProperty Name="NumeroExterior" ColumnName="NumeroExterior" />
+                <ScalarProperty Name="NumeroInterior" ColumnName="NumeroInterior" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <EntitySetMapping Name="Usuarios">
+            <EntityTypeMapping TypeName="AOrtegaProgramacionNCapasModel.Usuario">
+              <MappingFragment StoreEntitySet="Usuario">
+                <ScalarProperty Name="IdAspNet" ColumnName="IdAspNet" />
+                <ScalarProperty Name="Edad" ColumnName="Edad" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="Imagen" ColumnName="Imagen" />
+                <ScalarProperty Name="IdDireccion" ColumnName="IdDireccion" />
+                <ScalarProperty Name="ApellidoMaterno" ColumnName="ApellidoMaterno" />
+                <ScalarProperty Name="Curp" ColumnName="Curp" />
+                <ScalarProperty Name="FechaNacimiento" ColumnName="FechaNacimiento" />
+                <ScalarProperty Name="Celular" ColumnName="Celular" />
+                <ScalarProperty Name="Telefono" ColumnName="Telefono" />
+                <ScalarProperty Name="Sexo" ColumnName="Sexo" />
+                <ScalarProperty Name="ApellidoPaterno" ColumnName="ApellidoPaterno" />
+                <ScalarProperty Name="IdRol" ColumnName="IdRol" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="IdUsuario" ColumnName="IdUsuario" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Categorias">
+            <EntityTypeMapping TypeName="AOrtegaProgramacionNCapasModel.Categoria">
+              <MappingFragment StoreEntitySet="Categoria">
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="IdCategoria" ColumnName="IdCategoria" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Productoes">
+            <EntityTypeMapping TypeName="AOrtegaProgramacionNCapasModel.Producto">
+              <MappingFragment StoreEntitySet="Producto">
+                <ScalarProperty Name="IdSubCategoria" ColumnName="IdSubCategoria" />
+                <ScalarProperty Name="Imagen" ColumnName="Imagen" />
+                <ScalarProperty Name="Precio" ColumnName="Precio" />
+                <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="IdProducto" ColumnName="IdProducto" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SubCategorias">
+            <EntityTypeMapping TypeName="AOrtegaProgramacionNCapasModel.SubCategoria">
+              <MappingFragment StoreEntitySet="SubCategoria">
+                <ScalarProperty Name="IdCategoria" ColumnName="IdCategoria" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="IdSubCategoria" ColumnName="IdSubCategoria" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="ProductoAdd" FunctionName="AOrtegaProgramacionNCapasModel.Store.ProductoAdd" />
+          <FunctionImportMapping FunctionImportName="ProductoDelete" FunctionName="AOrtegaProgramacionNCapasModel.Store.ProductoDelete" />
+          <FunctionImportMapping FunctionImportName="ProductoGetById" FunctionName="AOrtegaProgramacionNCapasModel.Store.ProductoGetById">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="AOrtegaProgramacionNCapasModel.ProductoGetById_Result">
+                <ScalarProperty Name="IdProducto" ColumnName="IdProducto" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+                <ScalarProperty Name="Precio" ColumnName="Precio" />
+                <ScalarProperty Name="Imagen" ColumnName="Imagen" />
+                <ScalarProperty Name="IdSubCategoria" ColumnName="IdSubCategoria" />
+                <ScalarProperty Name="IdCategoria" ColumnName="IdCategoria" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="ProductoUpdate" FunctionName="AOrtegaProgramacionNCapasModel.Store.ProductoUpdate" />
+          <FunctionImportMapping FunctionImportName="SucursalGetAll" FunctionName="AOrtegaProgramacionNCapasModel.Store.SucursalGetAll">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="AOrtegaProgramacionNCapasModel.SucursalGetAll_Result">
+                <ScalarProperty Name="IdSucursal" ColumnName="IdSucursal" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="Latitud" ColumnName="Latitud" />
+                <ScalarProperty Name="Longitud" ColumnName="Longitud" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <EntitySetMapping Name="Sucursals">
+            <EntityTypeMapping TypeName="AOrtegaProgramacionNCapasModel.Sucursal">
+              <MappingFragment StoreEntitySet="Sucursal">
+                <ScalarProperty Name="Longitud" ColumnName="Longitud" />
+                <ScalarProperty Name="Latitud" ColumnName="Latitud" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="IdSucursal" ColumnName="IdSucursal" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ProductoSucursals">
+            <EntityTypeMapping TypeName="AOrtegaProgramacionNCapasModel.ProductoSucursal">
+              <MappingFragment StoreEntitySet="ProductoSucursal">
+                <ScalarProperty Name="Stock" ColumnName="Stock" />
+                <ScalarProperty Name="IdSucursal" ColumnName="IdSucursal" />
+                <ScalarProperty Name="IdProducto" ColumnName="IdProducto" />
+                <ScalarProperty Name="IdProductoSucursal" ColumnName="IdProductoSucursal" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="ProductoSucursalGetAll" FunctionName="AOrtegaProgramacionNCapasModel.Store.ProductoSucursalGetAll">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="AOrtegaProgramacionNCapasModel.ProductoSucursalGetAll_Result">
+                <ScalarProperty Name="IdProductoSucursal" ColumnName="IdProductoSucursal" />
+                <ScalarProperty Name="IdProducto" ColumnName="IdProducto" />
+                <ScalarProperty Name="IdSucursal" ColumnName="IdSucursal" />
+                <ScalarProperty Name="Stock" ColumnName="Stock" />
+                <ScalarProperty Name="ProductoId" ColumnName="ProductoId" />
+                <ScalarProperty Name="Producto" ColumnName="Producto" />
+                <ScalarProperty Name="SucursalID" ColumnName="SucursalID" />
+                <ScalarProperty Name="Sucursal" ColumnName="Sucursal" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="ProductoSucursalDelete" FunctionName="AOrtegaProgramacionNCapasModel.Store.ProductoSucursalDelete" />
+          <FunctionImportMapping FunctionImportName="ProductoSucursalUpdate" FunctionName="AOrtegaProgramacionNCapasModel.Store.ProductoSucursalUpdate" />
+          <FunctionImportMapping FunctionImportName="ProductoByIdSucursal" FunctionName="AOrtegaProgramacionNCapasModel.Store.ProductoByIdSucursal">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="AOrtegaProgramacionNCapasModel.ProductoByIdSucursal_Result">
+                <ScalarProperty Name="IdProductoSucursal" ColumnName="IdProductoSucursal" />
+                <ScalarProperty Name="IdProducto" ColumnName="IdProducto" />
+                <ScalarProperty Name="IdSucursal" ColumnName="IdSucursal" />
+                <ScalarProperty Name="Stock" ColumnName="Stock" />
+                <ScalarProperty Name="ProductoId" ColumnName="ProductoId" />
+                <ScalarProperty Name="Producto" ColumnName="Producto" />
+                <ScalarProperty Name="Imagen" ColumnName="Imagen" />
+                <ScalarProperty Name="SucursalID" ColumnName="SucursalID" />
+                <ScalarProperty Name="Sucursal" ColumnName="Sucursal" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="ProductoGetAll" FunctionName="AOrtegaProgramacionNCapasModel.Store.ProductoGetAll">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="AOrtegaProgramacionNCapasModel.ProductoGetAll_Result">
+                <ScalarProperty Name="IdProducto" ColumnName="IdProducto" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+                <ScalarProperty Name="Precio" ColumnName="Precio" />
+                <ScalarProperty Name="Imagen" ColumnName="Imagen" />
+                <ScalarProperty Name="IdSubCategoria" ColumnName="IdSubCategoria" />
+                <ScalarProperty Name="Categoria" ColumnName="Categoria" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="ProductoByIdSubcategoria" FunctionName="AOrtegaProgramacionNCapasModel.Store.ProductoByIdSubcategoria">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="AOrtegaProgramacionNCapasModel.ProductoByIdSubcategoria_Result">
+                <ScalarProperty Name="IdProducto" ColumnName="IdProducto" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+                <ScalarProperty Name="Precio" ColumnName="Precio" />
+                <ScalarProperty Name="Imagen" ColumnName="Imagen" />
+                <ScalarProperty Name="IdSubCategoria" ColumnName="IdSubCategoria" />
+                <ScalarProperty Name="NombreCategoria" ColumnName="NombreCategoria" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="UsuarioGetByIdidentity" FunctionName="AOrtegaProgramacionNCapasModel.Store.UsuarioGetByIdidentity">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="AOrtegaProgramacionNCapasModel.UsuarioGetByIdidentity_Result">
+                <ScalarProperty Name="IdUsuario" ColumnName="IdUsuario" />
+                <ScalarProperty Name="IdAspNet" ColumnName="IdAspNet" />
+                <ScalarProperty Name="IdDireccion" ColumnName="IdDireccion" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="PedidoAdd" FunctionName="AOrtegaProgramacionNCapasModel.Store.PedidoAdd" />
+          <FunctionImportMapping FunctionImportName="DetallePedidoAdd" FunctionName="AOrtegaProgramacionNCapasModel.Store.DetallePedidoAdd" />
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

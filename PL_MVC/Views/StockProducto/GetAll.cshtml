@@ -1,0 +1,130 @@
+﻿@model ML.ProductoSucursal
+@{
+    ViewBag.Title = "GetAll";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>GetAll</h2>
+
+<div class="=" container">
+    <div class="row">
+        <div class="col-12">
+            <h2>Producto</h2>
+        </div>
+    </div>
+    @using (Html.BeginForm("GetAll", "StockProducto", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {
+        <div class="row">
+            <div class="col-3">
+                @Html.LabelFor(model => model.Sucursal.IdSucursal, "Seleccionar la Sucursal para consultar los productos")
+                @Html.DropDownListFor(model => model.Sucursal.IdSucursal, new SelectList(Model.Sucursal.Sucursales, "IdSucursal", "Nombre"), "Selecciona una Sucursal", new { @class = "form-control" })
+            </div>
+            <div class="col-md-3 align-self-end">
+                <button type="submit" class="btn btn-success">Buscar</button>
+            </div>
+        </div>
+    }
+    <hr />
+    <h2>Productos que pertenecen a la sucursal</h2>
+
+    <div class="row">
+
+
+        @if (Model.ProductosSucursal == null || Model.ProductosSucursal.Count == 0)
+        {
+            <h2>No existe registro</h2>
+        }
+        else
+        {
+            <div class="row">
+                <div class="col-12">
+                    <div class=" table-responsive">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Editar</th>
+                                    <th>Imagen</th>
+                                    <th>Producto</th>
+                                    <th>Sucursal</th>
+                                    <th>Stock</th>
+                                    <th>Eliminar</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (ML.ProductoSucursal producto in Model.ProductosSucursal)
+                                {
+                                    using (Html.BeginForm("Update", "StockProducto", FormMethod.Post))
+                                    {
+                                        @Html.Hidden("IdProductoSucursal", producto.IdProductoSucursal)
+
+                                <tr>
+                                    <td>
+
+                                        <input type="button" value="Editar" class="btn btn-warning" id="editar" onclick="habilitarEdicion(this)" />
+                                        <button type="button" class="btn btn-secondary d-none" onclick="cancelarEdicion(this)">Cancelar</button>
+
+                                    </td>
+                                    <td>
+                                        @if (producto.Producto.Imagen == null)
+                                        {
+                                            <img id="img" src="https://back.tiendainval.com/backend/admin/backend/web/archivosDelCliente/items/images/20210108100138no_image_product.png" class="card-img-top" width="50" height="50"/>
+                                        }
+                                        else
+                                        {
+                                            <img id="Imagen" class="card-img-top" width="50" height="50" src="data:image/jpeg;base64,@Convert.ToBase64String(producto.Producto.Imagen) " />
+                                        }
+                                                                    </td>
+                                    <td>@producto.Producto.Nombre</td>
+
+                                    <td>@producto.Sucursal.Nombre</td>
+                                    <td>
+
+                                        @Html.TextBox("Stock", producto.Stock, new { @id = "txtStock", @disabled = "disabled" })
+                                    </td>
+                                    <td>
+                                        <input type="submit" value="Guardar" class="btn btn-primary" />
+                                        <a class="btn btn-danger" href="@Url.Action("Delete", "StockProducto", new { IdProductoSucursal = producto.IdProductoSucursal})" onclick="return confirm('Seguro que desea borrar el registro');" })"><i class="bi bi-trash3-fill"></i></a>
+                                    </td>
+
+
+                                </tr>
+
+
+                                    }
+
+
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+        }
+    </div>
+    <script type="text/javascript">
+        
+        function habilitarEdicion(button) {
+            
+            var tr = button.closest("tr");
+            var txtStock = tr.querySelector("#txtStock");
+            var btnCancel = tr.querySelector(".btn-secondary");
+
+          
+            txtStock.disabled = false;
+            btnCancel.classList.remove("d-none");
+            button.style.display = "none";
+        }
+
+        function cancelarEdicion(button) {
+           
+            var tr = button.closest("tr");
+            var txtStock = tr.querySelector("#txtStock");
+            var btnEditar = tr.querySelector(".btn-warning");
+
+            txtStock.disabled = true;
+            btnEditar.style.display = "inline-block";
+            button.classList.add("d-none");
+        }
+    </script>
+

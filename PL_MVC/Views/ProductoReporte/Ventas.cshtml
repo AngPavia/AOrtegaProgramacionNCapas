@@ -1,0 +1,15 @@
+﻿@model ML.ProductoPrueba
+@using ReportViewerForMvc;
+@{
+    ViewBag.Title = "Ventas";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Ventas</h2>
+<div class="container">
+    <div class="row">
+        <div class="col-12">
+            @Html.ReportViewer(ViewBag.ReportViewer as Microsoft.Reporting.WebForms.ReportViewer)
+        </div>
+    </div>
+</div>

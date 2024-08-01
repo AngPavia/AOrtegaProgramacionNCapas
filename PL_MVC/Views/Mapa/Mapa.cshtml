@@ -1,0 +1,59 @@
+﻿
+@{
+    ViewBag.Title = "Mapa";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Mapa con Google Maps</title>
+    <script src="https://maps.googleapis.com/maps/api/js?key=@System.Configuration.ConfigurationManager.AppSettings["AIzaSyCeKxM1GQ7PduEZ9qdmXgAddYGhurEoigE"]&callback=initMap" async defer></script>
+
+    <style>
+        #map {
+            height: 400px;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <h2>Mapa con Google Maps</h2>
+    <div id="map"></div>
+    <div id="latlng"></div> <!-- Aquí mostraremos las coordenadas -->
+
+    <script>
+        var map;
+        function initMap() {
+            var mapOptions = {
+                center: { lat: 19.430309, lng: -99.161924 },
+                zoom: 15
+            };
+            map = new google.maps.Map(document.getElementById('map'), mapOptions);
+
+            // Agregar un marcador inicial
+            var marker = new google.maps.Marker({
+                position: { lat: 19.430309, lng: -99.161924 },
+                map: map,
+                title: 'Paseo de la Reforma'
+            });
+
+            // Agregar un listener de click para agregar marcadores
+            map.addListener('click', function (event) {
+                addMarker(event.latLng);
+            });
+        }
+
+        // Función para agregar marcador y mostrar coordenadas
+        function addMarker(location) {
+            var marker = new google.maps.Marker({
+                position: location,
+                map: map
+            });
+
+            // Actualizar el div con id 'latlng' con las coordenadas
+            document.getElementById('latlng').innerHTML = 'Latitud: ' + location.lat() + '<br>Longitud: ' + location.lng();
+        }
+    </script>
+</body>
+</html>

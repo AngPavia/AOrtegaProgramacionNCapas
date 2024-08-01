@@ -1,0 +1,127 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv=”Content-Type” content=”text/html; charset=UTF-8″ />
+    <meta http-equiv=”Content-Type” content=”text/html; charset=ISO-8859-1″ />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Compra procesada</title>
+    <style>
+
+
+
+        .productos {
+            font-family: "Lucida Sans Unicode", "Lucida Grande", Sans-Serif;
+            font-size: 12px;
+            margin: 45px;
+            width: 480px;
+            text-align: left;
+            border-collapse: collapse;
+        }
+
+            .productos th {
+                font-size: 13px;
+                font-weight: normal;
+                padding: 8px;
+                background: #9DE8DD;
+                border-top: 4px solid #91C9C1;
+                border-bottom: 1px solid #fff;
+                color: #039;
+            }
+
+            .productos td {
+                padding: 8px;
+                background: #C5EEE8;
+                border-bottom: 1px solid #fff;
+                color: #669;
+                border-top: 1px solid transparent;
+            }
+
+         
+        
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #fff;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .header {
+            background-color: #60CBBB;
+            color: #fff;
+            text-align: center;
+            padding: 10px;
+            border-top-left-radius: 5px;
+            border-top-right-radius: 5px;
+        }
+
+        .content {
+            padding: 20px;
+            justify-content: center;
+            align-items: center;
+        }
+
+            .content p {
+                font-family: emoji;
+                font-size: 40px;
+                text-align: center;
+            }
+
+        .button {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 3px;
+        }
+
+            .button:hover {
+                background-color: #68CDBE;
+            }
+    </style>
+</head>
+<body>
+    <table class="container">
+        <tr>
+            <td class="header" colspan="2">
+                <h1>Tu compra fue procesada</h1>
+            </td>
+        </tr>
+        <tr>
+            <td class="content" colspan="2">
+                <p>{Nombre}</p>
+                <p>¡Gracias por tu compra!</p>
+                <img id="img" src="https://tecnosoluciones.com/wp-content/uploads/2022/10/comercio-electronico-ventas-al-mayor-distribucion-b2b.png" width="500" height="300" />
+                <p>Estos fueron los articulos que compraste</p>
+                <table class="productos">
+                    <thead>
+                        <tr>
+                            <th>Producto</th>
+                            <th>Cantidad</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {Productos}
+                    </tbody>
+                </table>
+               
+                <a href="" class="button">Ver más</a>
+
+
+            </td>
+        </tr>
+    </table>
+</body>
+</html>

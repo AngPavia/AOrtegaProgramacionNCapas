@@ -1,0 +1,41 @@
+﻿@model ML.ErrorExcel
+@{
+    ViewBag.Title = "CargaMasiva";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>CargaMasiva</h2>
+
+<div class="container">
+    <div class="row">
+
+    </div>
+
+</div>
+@using (Html.BeginForm("CargaMasiva", "CargaMasiva", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    <div class="row">
+        <div class="col-12">
+            <h2>Carga Masiva</h2>
+            <input name="Excel" type="file" class="form-control" id="Excel" />
+
+        </div>
+    </div>
+
+    if (!Model.Correct)
+    {
+
+
+        <div class="col-md-1">
+            <button type="submit" class="btn btn-success">Validar</button>
+        </div>
+    }
+    else
+    {
+        <div class="col-md-1">
+            <button type="submit" class="btn btn-success">Enviar</button>
+        </div>
+
+    }
+}
+

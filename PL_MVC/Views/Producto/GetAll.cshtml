@@ -1,0 +1,223 @@
+﻿@model ML.Producto
+@{
+    ViewBag.Title = "GetAll";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>GetAll</h2>
+<div class="=" container">
+    <div class="row">
+        <div class="col-12">
+            <h2>Producto</h2>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12">
+            <h5>Seleccione un producto para eliminar o editar. Seleccione + para agregar un nuevo producto</h5>
+            <hr />
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-2">
+            <button type="button" class="btn btn-primary" id="btnBuscarCategoria">Búsqueda por categoria</button>
+        </div>
+        <div class="col-lg-2">
+            <button type="button" class="btn btn-primary" id="btnCargaMasiva">Carga Masiva</button>
+        </div>
+    </div>
+    <hr />
+
+
+
+    <div id="formGetAll" style=" display: none;" class="fade-out">
+
+        @using (Html.BeginForm("GetAll", "Producto", FormMethod.Post, new { enctype = "multipart/form-data" }))
+        {
+            <div class="row">
+                <div class="row">
+                    <div class="col-3">
+                        <h5>Buscar por categoria</h5>
+
+                    </div>
+                </div>
+                <div class="col-3">
+                    @Html.LabelFor(model => model.SubCategoria.Categoria.IdCategoria, "Categoria")
+                    @Html.DropDownListFor(model => model.SubCategoria.Categoria.IdCategoria, new SelectList(Model.SubCategoria.Categoria.Categorias, "IdCategoria", "Nombre"), "Selecciona una opción", new { @class = "form-control", @id = "ddlCategoria", @onchange = "consultarSubCategoria()" })
+                </div>
+                <div class="col-3">
+                    @if (Model.SubCategoria.SubCategorias == null)
+                    {
+                        @Html.LabelFor(model => model.SubCategoria.IdSubCategoria, "Subcategoria")
+                        @Html.DropDownListFor(model => model.SubCategoria.IdSubCategoria, new SelectList(string.Empty, "Value", "Text"), "Selecciona una opción", new { @class = "form-control", @id = "ddlSubcategoria" })
+                    }
+                    else
+                    {
+                        @Html.LabelFor(model => model.SubCategoria.IdSubCategoria, "Subcategoria")
+                        @Html.DropDownListFor(model => model.SubCategoria.IdSubCategoria, new SelectList(Model.SubCategoria.SubCategorias, "IdSubcategoria", "Nombre"), "Selecciona una opción", new { @class = "form-control", @id = "ddlSubcategoria" })
+                    }
+                </div>
+                <div class="col-md-3 align-self-end">
+                    <button type="submit" class="btn btn-success">Buscar</button>
+                    <button type="button" class="btn btn-danger" onclick="cancelarFormulario('formGetAll')">Cancelar</button>
+                </div>
+                <div class="col-md-3 align-self-end">
+                    
+                </div>
+            </div>
+
+        }
+    </div>
+    <hr />
+
+   
+    <div id="formCargaMasiva" style=" display: none;" class="fade-out">
+        @using (Html.BeginForm("CargaMasiva", "CargaMasiva", FormMethod.Post, new { enctype = "multipart/form-data" }))
+        {
+            
+            if (TempData["Action"] == null)
+            {
+
+                <div class="row">
+                    <div class="col-md-3">
+                        <h5>Carga Masiva</h5>
+                        <input name="Excel" type="file" class="form-control" id="Excel" />
+                    </div>
+                    <div class="col-md-3 align-self-end">
+                        <button type="submit" class="btn btn-success mt-4">Validar</button>
+                        <button type="button" class="btn btn-danger" onclick="cancelarFormulario('formCargaMasiva')">Cancelar</button>
+                    </div>
+                    <div class="col-md-3 align-self-end">
+                       
+                    </div>
+                </div>
+                
+
+            }
+            else
+            {
+                
+                <div class="alert alert-success" role="alert">
+                    El archivo se validó
+                </div>
+
+                <button type="submit" class="btn btn-success">Insertar</button>
+            }
+
+
+
+
+        }
+    </div>
+
+
+
+    <div class="row">
+        <div class="col-1 offset-11">
+            @Html.ActionLink("+", "Form", new { IdProducto = 0 }, new { @class = "btn btn-success" })
+        </div>
+
+
+        @if (Model.Productos == null || Model.Productos.Count == 0)
+        {
+            <h2>No existe registro</h2>
+        }
+        else
+        {
+            <div class="row">
+                @foreach (ML.Producto producto in Model.Productos)
+                {
+                    <div class="card" style="width: 18rem;">
+                        @if (producto.Imagen == null)
+                        {
+                            <img id="img" src="https://back.tiendainval.com/backend/admin/backend/web/archivosDelCliente/items/images/20210108100138no_image_product.png" class="card-img-top" />
+                        }
+                        else
+                        {
+                            <img id="Imagen" class="card-img-top" width="80" height="100" src="data:image/jpeg;base64,@Convert.ToBase64String(producto.Imagen) " />
+                        }
+
+
+                        <div class="card-body">
+                            <h5 class="card-title">@producto.Nombre</h5>
+                            <p class="card-text"><small class="text-muted">@producto.Descripcion</small></p>
+                            <p class="card-text"><strong>Precio:</strong> @producto.Precio</p>
+                            <p class="card-text"><strong>Categoria:</strong> @producto.SubCategoria.Nombre</p>
+                            <a href="@Url.Action("Form", "Producto", new { IdProducto = producto.IdProducto })" class="btn btn-warning"><i class="bi bi-pencil-square"></i> Editar</a>
+                            <a href="@Url.Action("Delete", "Producto", new { IdProducto = producto.IdProducto })" class="btn btn-danger" onclick="return confirm('¿Desea eliminar el registro?')"><i class="bi bi-trash3-fill"></i> Eliminar</a>
+
+                        </div>
+                    </div>
+
+                }
+            </div>
+        }
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <script>
+
+        $(document).ready(function () {
+            var archivoCargado = $('#Excel').val();
+            if (archivoCargado) {
+                $('#guardar').removeAttr('disabled');
+            }
+        });
+
+        function enviarFormulario(btn) {
+            // Envía el formulario al controlador
+            $('form').submit();
+            // Deshabilita el botón Validar
+            $(btn).attr('disabled', 'disabled');
+            // Habilita el botón Guardar
+            $('#guardar').removeAttr('disabled');
+        }
+
+
+
+
+
+            function consultarSubCategoria() {
+$("#ddlSubcategoria").empty();
+$.ajax({
+    type: 'GET',
+    url: '@Url.Action("GetSubCategoriaByIdCategoria", "Producto")',
+    dataType: 'json',
+    data: { 'IdCategoria': parseInt($("#ddlCategoria").val()) },
+    success: function (grupos) {
+        $("#ddlSubcategoria").append('<option value="0">' + 'Seleccione una opcion' + '</option>');
+        $.each(grupos.Objects, function (i, grupos) {
+            $("#ddlSubcategoria").append('<option value="' + grupos.IdSubCategoria + '">' + grupos.Nombre + '</option>');
+        });
+    },
+    error: function (ex) {
+        alert('Failed.' + ex.ErrorMessage);
+    }
+});
+
+            }
+
+        $(document).ready(function () {
+            $("#btnBuscarCategoria").click(function () {
+                $("#formGetAll").fadeIn();
+                $("#formCargaMasiva").fadeOut();
+            });
+
+            $("#btnCargaMasiva").click(function () {
+                $("#formCargaMasiva").fadeIn();
+                $("#formGetAll").fadeOut();
+            });
+        });
+
+
+        function cancelarFormulario(idFormulario) {
+            var formulario = document.getElementById(idFormulario);
+            if (formulario) {
+                formulario.style.display = 'none';
+            }
+        }
+
+
+
+
+    </script>
